@@ -17,7 +17,6 @@ from quantumcat.gates.custom_gates.cirq import UGate, U1Gate, U2Gate, U3Gate, SX
                                                SXGate, TDGate, RYGate, RYYGate, RZXGate, RZZGate, RZGate
 
 
-
 def is_custom_class(obj):
     if isinstance(obj, UGate) or isinstance(obj, U1Gate) or isinstance(obj, U2Gate) or isinstance(obj, U3Gate) or \
             isinstance(obj, RXXGate) or isinstance(obj, SXDGate) or isinstance(obj, SDGGate) or \
@@ -29,3 +28,10 @@ def is_custom_class(obj):
         return True
     else:
         return False
+
+
+def to_numbers(tensor_list):
+    t_list = []
+    for tensor in tensor_list:
+        t_list += [tensor.item()]
+    return t_list
