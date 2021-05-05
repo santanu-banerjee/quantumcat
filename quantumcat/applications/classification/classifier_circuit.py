@@ -18,7 +18,6 @@ import numpy as np
 from quantumcat.utils import helper
 from quantumcat.utils import providers
 
-
 class ClassifierCircuit:
     """
     This class provides a simple interface for interaction
@@ -50,5 +49,6 @@ class ClassifierCircuit:
     def run(self, i):
         self.bind(i)
         rep = 1000
-        counts = self.circuit.execute(provider = providers.IBM_PROVIDER, repetitions=rep)
+        prov = providers.IBM_PROVIDER
+        counts = self.circuit.execute(provider = prov, repetitions=rep)
         return self.N_qubit_expectation_Z(counts, rep, 1)

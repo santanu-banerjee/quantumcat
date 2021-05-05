@@ -17,7 +17,7 @@ import torch
 from torch.autograd import Function
 import torch.nn as nn
 import torch.nn.functional as F
-from quantumcat.applications.classifier import ClassifierCircuit
+from quantumcat.applications.classification import ClassifierCircuit
 from quantumcat.utils import helper
 import numpy as np
 
@@ -26,10 +26,10 @@ class TorchCircuit(Function):
 
     @staticmethod
     def forward(ctx, i):
-        if not hasattr(ctx, 'QiskitCirc'):
-            ctx.QiskitCirc = ClassifierCircuit(1)
+        if not hasattr(ctx, 'Circuit'):
+            ctx.Circuit = ClassifierCircuit(1)
 
-        exp_value = ctx.QiskitCirc.run(i[0])
+        exp_value = ctx.Circuit.run(i[0])
 
         result = torch.tensor([exp_value]) # store the result as a torch tensor
 
@@ -52,13 +52,13 @@ class TorchCircuit(Function):
             input_plus_s = input_numbers
             input_plus_s[k] = input_numbers[k] + s  # Shift up by s
 
-            exp_value_plus = ctx.QiskitCirc.run(torch.tensor(input_plus_s))[0]
+            exp_value_plus = ctx.Circuit.run(torch.tensor(input_plus_s))[0]
             result_plus_s = torch.tensor([exp_value_plus])
 
             input_minus_s = input_numbers
             input_minus_s[k] = input_numbers[k] - s # Shift down by s
 
-            exp_value_minus = ctx.QiskitCirc.run(torch.tensor(input_minus_s))[0]
+            exp_value_minus = ctx.Circuit.run(torch.tensor(input_minus_s))[0]
             result_minus_s = torch.tensor([exp_value_minus])
 
             gradient_result = (result_plus_s - result_minus_s)
