@@ -20,6 +20,8 @@ from quantumcat.applications import ProteinFolding
 
 from quantumcat.applications.generator import RandomNumber
 
+from quantumcat.applications.quantum_game.snake_game import Agent
+
 
 
 def create_circuit_demo():
@@ -58,8 +60,8 @@ def grovers_demo():
     print(results)
 
 def random_number_demo():
-    random_number = RandomNumber(length=4, output_type=constants.DECIMAL)\
-        .execute(api=constants.IBM_API, device=constants.IBM_DEVICE_NAME)
+    random_number = RandomNumber(length=3, output_type=constants.DECIMAL)\
+        .execute()
     print(random_number)
 
 def run_on_real_device():
@@ -75,5 +77,11 @@ def protein_folding_demo():
     result = job.run(providers.GOOGLE_PROVIDER)
     print(result)
 
+def quantum_game_demo():
+    job = Agent(10)
+    train = job.train(1)
+    print(train.plotting())
+
+
 if __name__ == '__main__':
-    protein_folding_demo()
+    quantum_game_demo()
